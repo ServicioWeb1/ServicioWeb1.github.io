@@ -77,12 +77,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add more products as needed
     ];
 
+const date = new Date();
+const result1 = new Date().toLocaleDateString('en-GB');
+
+
     var cliente = {
         idFactura: generarIdFactura(),
         nombre: '',
         direccion: '',
         telefono: '',
-        email: ''
+        email: '',
+	fecha: ''
     };
 
     var tablaProductos = document.getElementById('tablaProductos');
@@ -168,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cliente.direccion = direccionClienteInput.value;
         cliente.telefono = telefonoClienteInput.value;
         cliente.email = emailClienteInput.value;
+	cliente.fecha = result1;
 
 
  var productosArray = productos.map(function(producto) {
@@ -184,7 +190,8 @@ document.addEventListener('DOMContentLoaded', function() {
                           '&direccion=' + encodeURIComponent(cliente.direccion) +
                           '&telefono=' + encodeURIComponent(cliente.telefono) +
                           '&email=' + encodeURIComponent(cliente.email)+
-			  '&productos=' + encodeURIComponent(JSON.stringify(productosArray));
+			  '&productos=' + encodeURIComponent(JSON.stringify(productosArray))+
+			  '&fecha=' + result1;
 
         // Open invoice.html with the query string
         window.open('invoice.html' + queryString, '_blank');
