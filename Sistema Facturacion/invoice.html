@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+   
+ <div class="container mt-5" id = "invoice">
+         <div class="row mt-3 bg-success text-white">
+
+            <div class="col-md-6 text-right">
+               <h3 class="text-left">Factura</h3>
+            </div>
+            <div class="col-md-6">
+                 <h3 class="text-right"> Factura No: <span id="idFactura"></span> </h3>
+            </div>
+        </div>
+    <div class="row mt-3">
+            <div class="col-md-12 text-left">
+                <hr style="border-top: 3px solid #28a745; width: 101%; margin: 0 auto;">
+                
+ 
+            </div>
+<div class="col-md-6">
+<br>
+<img alt="Logo de tu aplicación" id="yourImage" class="img-fluid" style="max-height: 150px;">
+</div>
+  <div class="col-md-6 text-right">
+<br>
+                <strong><p>Condessa Beauty Supply</p></strong>
+                <p>Av 27 de Febrero 355, Santo Domingo</p>
+                <p>condessa@gmail.com</p>
+                <p>8095308531</p> 
+            </div>
+        </div>
+        <div class="row mt-3">
+          
+        </div>
+<div class="col-md-12 text-left">
+                <hr style="border-top: 3px solid #28a745; width: 101%; margin: 0 auto;">
+ </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <h4>Cliente</h4>
+                <strong><p>Nombre: <span id="nombreCliente"></span></p></strong>
+                <p>Teléfono: <span id="telefonoCliente"></span></p>
+                <p>Dirección: <span id="direccionCliente"></span></p>
+                <p>Email: <span id="emailCliente"></span></p>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h3>Productos</h3>
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr> 
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Total</th> 
+                        </tr>
+                    </thead>
+                    <tbody id="tablaProductosBody"></tbody>
+                </table>
+  <div class="d-flex justify-content-end mb-3">
+                <p id="totalProductos"> Total:</p>
+            </div>
+            </div>
+        </div>
+
+    </div>
+
+
+        <div class="row mt-4">
+            <div class="col-md-12 text-center">
+                <button class="btn btn-primary" id="imprimirFactura" onclick = "generatePDF()">Imprimir Factura</button>
+            </div>
+        </div>
+
+    <script>
+
+
+function imageUrlToDataUri(imageUrl, callback) {
+    fetch(imageUrl)
+        .then(response => response.blob())
+        .then(blob => {
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                callback(reader.result);
+            };
+            reader.readAsDataURL(blob);
+        })
+        .catch(error => console.error('Error fetching image:', error));
+}
+ 
+var imgElement = document.getElementById('yourImage');
+var imageUrl = 'https://i.ibb.co/WDpJVdg/Image-1.jpg';
+imageUrlToDataUri(imageUrl, function (dataUri) {
+imgElement.src = dataUri;
+});
+
+
+
+
+        function generatePDF() {
+            var element = document.getElementById('invoice'); // Choose the element you want to convert
+
+                    html2pdf(element);
+        }
+
+     document.addEventListener('DOMContentLoaded', function() {
+            // Function to get parameter value from the query string
+            function getParameterByName(name, url) {
+                if (!url) url = window.location.href;
+                name = name.replace(/[\[\]]/g, '\\$&');
+                var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                    results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, ' '));
+            }
+
+            // Retrieve parameters from the query string
+            var idFactura = getParameterByName('idFactura');
+            var nombre = getParameterByName('nombre');
+            var direccion = getParameterByName('direccion');
+            var telefono = getParameterByName('telefono');
+            var email = getParameterByName('email');
+	    var productosString = getParameterByName('productos');
+
+    var totalProductosCell = document.getElementById('totalProductos');
+
+            // Parse the productos array from the JSON-encoded string
+            var productos = JSON.parse(decodeURIComponent(productosString));
+
+ 
+	
+    function formatearConComas(valor) {
+        return valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+      var total = productos.reduce(function(sum, producto) {
+            return sum + producto.cantidad * producto.precio;
+        }, 0);
+
+        totalProductosCell.textContent = 'Total: ' + formatearConComas(total.toFixed(2));
+    
+
+            // Populate elements with retrieved parameters
+            document.getElementById('idFactura').textContent = idFactura;
+            document.getElementById('nombreCliente').textContent = nombre;
+            document.getElementById('direccionCliente').textContent = direccion;
+            document.getElementById('telefonoCliente').textContent = telefono;
+            document.getElementById('emailCliente').textContent = email;
+
+            var tbody = document.getElementById('tablaProductosBody');
+        productos.forEach(function(producto) {
+            var total = producto.cantidad * producto.precio;
+
+            var row = '<tr>' +
+                        
+                        '<td>' + formatearConComas(producto.nombre) + '</td>' +
+                        '<td>' + formatearConComas(producto.cantidad) + '</td>' +
+                        '<td>' + formatearConComas(producto.precio) + '</td>' +
+                        '<td>' + formatearConComas(total.toFixed(2)) + '</td>' +
+                      '</tr>';
+
+            tbody.innerHTML += row;
+        });
+
+        });
+    </script>
+</body>
+</html>
