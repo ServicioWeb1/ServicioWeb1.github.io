@@ -1,22 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factura</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<meta charset="utf-8">
+	<title>
+		jsPDF - Create PDFs with HTML5 JavaScript Library
+	</title>
+
+	<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+	</script>
+	<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+	</script>
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </head>
+
 <body>
-   
- <div class="container mt-5" id = "invoice">
+	<div class="container mt-5" id = "invoice">
          <div class="row mt-3 bg-success text-white">
 
             <div class="col-md-6 text-right">
-               <h3 class="text-left">Factura</h3>
+               <h4 class="text-left">Factura</h4>
             </div>
             <div class="col-md-6">
                  <h3 class="text-right"> Factura No: <span id="idFactura"></span> </h3>
@@ -35,9 +47,9 @@
   <div class="col-md-6 text-right">
 <br>
                 <strong><p>Condessa Beauty Supply</p></strong>
-                <p>Av 27 de Febrero 355, Santo Domingo</p>
+                <p>Tienda Virtual</p>
                 <p>condessa@gmail.com</p>
-                <p>8095308531</p> 
+                <p>829-994-8300</p> 
             </div>
         </div>
         <div class="row mt-3">
@@ -47,13 +59,14 @@
                 <hr style="border-top: 3px solid #28a745; width: 101%; margin: 0 auto;">
  </div>
         <div class="row mt-3">
-            <div class="col-md-6">
+            <div class="col-md-6" text-left>
                 <h4>Cliente</h4>
                 <strong><p>Nombre: <span id="nombreCliente"></span></p></strong>
                 <p>Teléfono: <span id="telefonoCliente"></span></p>
                 <p>Dirección: <span id="direccionCliente"></span></p>
                 <p>Email: <span id="emailCliente"></span></p>
             </div>
+
         </div>
 
         <div class="row mt-4">
@@ -75,18 +88,41 @@
             </div>
             </div>
         </div>
-
+<strong><p>Fecha Factura: <span id="fecha"></span></p></strong>
+ <div class="row mt-3">
+            <div class="col-md-12 text-left">
+                <hr style="border-top: 3px solid #28a745; width: 101%; margin: 0 auto;">
+                
+ </div>
+            </div>
+	<strong><p>No. Cuenta Popular: Condessa Beauty Supply 838590685</p>
+	<p>No. Cuenta BHD: Condessa Beauty Supply 10936390030</p></strong>
     </div>
 
 
         <div class="row mt-4">
             <div class="col-md-12 text-center">
-                <button class="btn btn-primary" id="imprimirFactura" onclick = "generatePDF()">Imprimir Factura</button>
+                <button class="btn btn-primary" id="imprimirFactura" onclick = "convertHTMLtoPDF()">Imprimir Factura</button>
             </div>
         </div>
 
-    <script>
+	<script type="text/javascript">
+var w = window.innerWidth;
+var h = window.innerHeight;
+		function convertHTMLtoPDF() {
+			const { jsPDF } = window.jspdf;
 
+			let doc = new jsPDF('l', 'mm', [1200, 1200]);
+			let pdfjs = document.querySelector('#invoice');
+
+			doc.html(pdfjs, {
+				callback: function(doc) {
+					doc.save("newpdf.pdf");
+				},
+				x: 12,
+				y: 12
+			});			 
+		}
 
 function imageUrlToDataUri(imageUrl, callback) {
     fetch(imageUrl)
@@ -107,16 +143,7 @@ imageUrlToDataUri(imageUrl, function (dataUri) {
 imgElement.src = dataUri;
 });
 
-
-
-
-        function generatePDF() {
-            var element = document.getElementById('invoice'); // Choose the element you want to convert
-
-                    html2pdf(element);
-        }
-
-     document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
             // Function to get parameter value from the query string
             function getParameterByName(name, url) {
                 if (!url) url = window.location.href;
@@ -134,6 +161,7 @@ imgElement.src = dataUri;
             var direccion = getParameterByName('direccion');
             var telefono = getParameterByName('telefono');
             var email = getParameterByName('email');
+            var fecha = getParameterByName('fecha');
 	    var productosString = getParameterByName('productos');
 
     var totalProductosCell = document.getElementById('totalProductos');
@@ -160,6 +188,7 @@ imgElement.src = dataUri;
             document.getElementById('direccionCliente').textContent = direccion;
             document.getElementById('telefonoCliente').textContent = telefono;
             document.getElementById('emailCliente').textContent = email;
+document.getElementById('fecha').textContent = fecha;
 
             var tbody = document.getElementById('tablaProductosBody');
         productos.forEach(function(producto) {
@@ -176,7 +205,7 @@ imgElement.src = dataUri;
             tbody.innerHTML += row;
         });
 
-        });
-    </script>
+        });		 
+	</script>	 
 </body>
 </html>
