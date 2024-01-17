@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #367D96;
+background-color: #367D96;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.table th, .table td {
+    text-align: center;
+}
+
+.table th:last-child,
+.table td:last-child {
+    text-align: right;
+}
+
+.editable {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.editable:hover {
+    color: darkblue;
+}
+
+.custom-bg-gray {
+    background-color: #F5FDFF;/* Replace with your desired shade of gray */
+}
