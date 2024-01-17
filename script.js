@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			  '&productos=' + encodeURIComponent(JSON.stringify(productosArray));
 
         // Open invoice.html with the query string
-        window.open('invoice.html' + queryString, '_blank');
+        window.open('https://github.com/ServicioWeb1/ServicioWeb1.github.io/blob/main/invoice.html' + queryString, '_blank');
     }
 
  // Add a button to trigger the invoice printing
