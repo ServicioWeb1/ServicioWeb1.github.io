@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>
-		jsPDF - Create PDFs with HTML5 JavaScript Library
+		Factura
 	</title>
 
 	<script src=
@@ -34,7 +34,7 @@
 
 <body>
 	<div class="container mt-5" id = "invoice">
-         <div class="row mt-3 bg-light-success text-white">
+         <div class="row mt-3 bg-light-success">
 
             <div class="col-md-6 text-right">
                <h4 class="text-left">Factura</h4>
@@ -118,22 +118,8 @@
         </div>
 
 	<script type="text/javascript">
-var w = window.innerWidth;
-var h = window.innerHeight;
-		function convertHTMLtoPDF() {
-			const { jsPDF } = window.jspdf;
-
-			let doc = new jsPDF('l', 'mm', [1200, 1200]);
-			let pdfjs = document.querySelector('#invoice');
-
-			doc.html(pdfjs, {
-				callback: function(doc) {
-					doc.save("newpdf.pdf");
-				},
-				x: 12,
-				y: 12
-			});			 
-		}
+var nombre;
+var idFactura;
 
 function imageUrlToDataUri(imageUrl, callback) {
     fetch(imageUrl)
@@ -172,8 +158,8 @@ imgElement2.src = dataUri;
             }
 
             // Retrieve parameters from the query string
-            var idFactura = getParameterByName('idFactura');
-            var nombre = getParameterByName('nombre');
+            idFactura = getParameterByName('idFactura');
+            nombre = getParameterByName('nombre');
             var direccion = getParameterByName('direccion');
             var telefono = getParameterByName('telefono');
             var email = getParameterByName('email');
@@ -221,7 +207,23 @@ document.getElementById('fecha').textContent = fecha;
             tbody.innerHTML += row;
         });
 
-        });		 
+        });	
+
+
+		function convertHTMLtoPDF() {
+			const { jsPDF } = window.jspdf;
+
+			let doc = new jsPDF('l', 'mm', [1200, 1200]);
+			let pdfjs = document.querySelector('#invoice');
+
+			doc.html(pdfjs, {
+				callback: function(doc) {
+					doc.save(nombre+"-"+idFactura+".pdf");
+				},
+				x: 12,
+				y: 12
+			});			 
+		}	 
 	</script>	 
 </body>
 </html>
