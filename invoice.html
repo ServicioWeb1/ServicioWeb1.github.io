@@ -21,11 +21,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+<style>
+
+ .bg-light-success {
+        background-color: #c1fe72; 
+    }
+
+</style>
+
+
 </head>
 
 <body>
 	<div class="container mt-5" id = "invoice">
-         <div class="row mt-3 bg-success text-white">
+         <div class="row mt-3 bg-light-success text-white">
 
             <div class="col-md-6 text-right">
                <h4 class="text-left">Factura</h4>
@@ -36,7 +45,7 @@
         </div>
     <div class="row mt-3">
             <div class="col-md-12 text-left">
-                <hr style="border-top: 3px solid #28a745; width: 101%; margin: 0 auto;">
+                <hr style="border-top: 3px solid #c1fe72; width: 101%; margin: 0 auto;">
                 
  
             </div>
@@ -48,7 +57,8 @@
 <br>
                 <strong><p>Condessa Beauty Supply</p></strong>
                 <p>Tienda Virtual</p>
-                <p>condessa@gmail.com</p>
+		<p> <img alt="Logo de tu aplicación" id="youre" class="img-fluid" style="max-height: 20px;"> <a href ="https://www.instagram.com/condessabeautys?igsh=c2NmNTl0c2RmZTRh"> Condessa Beauty Supply </a> </p>
+                <p>condessabeauty03@gmail.com</p>
                 <p>829-994-8300</p> 
             </div>
         </div>
@@ -56,7 +66,7 @@
           
         </div>
 <div class="col-md-12 text-left">
-                <hr style="border-top: 3px solid #28a745; width: 101%; margin: 0 auto;">
+                <hr style="border-top: 3px solid #c1fe72; width: 101%; margin: 0 auto;">
  </div>
         <div class="row mt-3">
             <div class="col-md-6" text-left>
@@ -91,12 +101,13 @@
 <strong><p>Fecha Factura: <span id="fecha"></span></p></strong>
  <div class="row mt-3">
             <div class="col-md-12 text-left">
-                <hr style="border-top: 3px solid #28a745; width: 101%; margin: 0 auto;">
+                <hr style="border-top: 3px solid #c1fe72; width: 101%; margin: 0 auto;">
                 
  </div>
             </div>
 	<strong><p>No. Cuenta Popular: Condessa Beauty Supply 838590685</p>
-	<p>No. Cuenta BHD: Condessa Beauty Supply 10936390030</p></strong>
+	<p>No. Cuenta BHD: Condessa Beauty Supply 10936390030</p>
+	<p>No. Banreservas: Condessa Beauty Supply 9606679370</p></strong>
     </div>
 
 
@@ -138,9 +149,14 @@ function imageUrlToDataUri(imageUrl, callback) {
 }
  
 var imgElement = document.getElementById('yourImage');
+var imgElement2 = document.getElementById('youre');
+var imageUrl2 ="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png";
 var imageUrl = 'https://i.ibb.co/WDpJVdg/Image-1.jpg';
 imageUrlToDataUri(imageUrl, function (dataUri) {
 imgElement.src = dataUri;
+});
+imageUrlToDataUri(imageUrl2, function (dataUri) {
+imgElement2.src = dataUri;
 });
 
   document.addEventListener('DOMContentLoaded', function() {
